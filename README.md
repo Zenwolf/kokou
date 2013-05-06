@@ -52,7 +52,10 @@ so that there will be very few conflicts. This also allows
 mixins to use the same property names if they want.
 
 _Example_:
+
+```javascript
 myObj.data['queue'].foo
 myObj.data['emitter'].foo
+```
 
 Each mixin creates its own entry in the common data object.
