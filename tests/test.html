@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 
-<title>Koko Test</title>
+<title>Kokou Test</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta charset="utf-8">
 
@@ -28,17 +28,22 @@ require.config({
 
 <script type="text/javascript">
 
-require(['../src/index'], function (koko) {
-    window.koko = koko;
-    window.e = koko.emitter.create();
+require(['../src/index'], function (kokou) {
+    window.kokou = kokou;
 
+    // emitter
+    window.e = kokou.emitter.create();
     e.initEmitter();
-
     e.addListener('foo', function () {
         console.log('emitter foo');
     });
-
     e.emit('foo');
+
+    // queue
+    window.q = kokou.queue.create();
+    q.initQueue();
+    q.add( {name: 'q1'} );
+    console.log( q.peek() );
 });
 </script>
 

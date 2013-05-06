@@ -12,9 +12,12 @@ define(function () {
          */
         function initEmitter() {
             var eData = null;
+
             this.data = this.data || {};
             eData = this.data['emitter'] = {};
             eData.listeners = {};
+
+            return this;
         }
 
         /**
@@ -181,7 +184,8 @@ define(function () {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     function create() {
-        return Object.create(emitter);
+        var obj = Object.create(emitter);
+        return obj.initEmitter();
     }
 
 

@@ -1,22 +1,29 @@
-Koko
+Kokou
 ============================================================
 
-Koko is a standalone utility library that is used in its
-sister "wabi-sabi" libraries: Yugen, Kanso, etc.
+Kokou is a utility library that is cultivated from useful
+things that have withstood the test of time and value. It is
+used in its sister "wabi-sabi" libraries: Yugen, Kanso, etc.
+
+
+Project Status
+------------------------------------------------------------
+
+Unstable; in development.
 
 
 Design Philosophy
 ------------------------------------------------------------
 
-Koko follows my "wabi-sabi" design philosphy:
+Kokou follows my "wabi-sabi" design philosphy:
 
 Mixin, Object, Delegate, Compose (MODC)
 
 This style promotes several concepts:
 
 * Create simple objects that perform a specific function.
-* Provide a companion mixin to provide flexibility to
-  create new types of objects.
+* Provide a companion mixin, if possible, to provide
+  flexibility to create new types of objects.
 * Use differential overrides, where the non-overrides
   are delegated to the prototypical object.
 * Use composition for more complex behavior.
