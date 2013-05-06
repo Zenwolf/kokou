@@ -34,7 +34,7 @@ user to adapt the functionality to their own specific
 use case.
 
 
-**Mixins**
+###Mixins###
 I use the "verb" style of mixin with an applied context
 (using "call") to link cached functions for performance.
 
