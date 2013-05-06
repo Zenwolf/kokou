@@ -42,7 +42,7 @@ Because I do not rely on constructors, due to the extensive
 use of mixins, each mixin defines an init function that
 sets up the required properties the mixin requires. The
 init function should be labeled after the mixin's
-functionality, such as: initAttr, initEmitter, etc. This
+functionality, such as: initQueue, initEmitter, etc. This
 allows you to create a factory function to do a specific
 initialization, or allows the end user to manually init
 each functionality separately.
@@ -52,7 +52,7 @@ so that there will be very few conflicts. This also allows
 mixins to use the same property names if they want.
 
 _Example_:
-myObj.data['attr'].foo
+myObj.data['queue'].foo
 myObj.data['emitter'].foo
 
 Each mixin creates its own entry in the common data object.
