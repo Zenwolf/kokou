@@ -1,15 +1,15 @@
 define(
-	[
+    [
         './type',
         './queue',
-		'./emitter'
-	],
+        './emitter'
+    ],
 
-	function (type, queue, emitter) {
-		return {
+    function (type, queue, emitter) {
+        return {
             type   : type,
             queue  : queue,
-			emitter: emitter
-		};
-	}
+            emitter: emitter
+        };
+    }
 );
