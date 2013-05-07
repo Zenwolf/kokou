@@ -34,13 +34,14 @@ user to adapt the functionality to their own specific
 use case.
 
 
-###Mixins###
+### Mixins ###
+
 I use the "verb" style of mixin with an applied context
 (using "call") to link cached functions for performance.
 
-Because I do not rely on constructors, due to the extensive
-use of mixins, each mixin defines an init function that
-sets up the required properties the mixin requires. The
+_Properties:_ Because I do not rely on constructors, due to
+the extensive use of mixins, each mixin defines an init
+function that sets up the required mixin properties. The
 init function should be labeled after the mixin's
 functionality, such as: initQueue, initEmitter, etc. This
 allows you to create a factory function to do a specific
@@ -59,3 +60,9 @@ myObj.data['emitter'].foo
 ```
 
 Each mixin creates its own entry in the common data object.
+
+_Functions:_ Currently, functions are not namespaced like
+the properties are. I found that in the case of function
+name conflicts, I usually break the object into multiple
+object. However, I may revisit this and try out namespaced
+functions in the future.

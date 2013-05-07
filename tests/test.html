@@ -31,6 +31,11 @@ require.config({
 require(['../src/index'], function (kokou) {
     window.kokou = kokou;
 
+    // type
+    console.log( kokou.type.isObject( {} ) );
+    console.log( kokou.type.isObject( null ) );
+    console.log( kokou.type.isObject( undefined ) );
+
     // emitter
     window.e = kokou.emitter.create();
     e.initEmitter();
@@ -44,6 +49,19 @@ require(['../src/index'], function (kokou) {
     q.initQueue();
     q.add( {name: 'q1'} );
     console.log( q.peek() );
+
+    // list
+    window.l = kokou.list.toArray({
+        0: 'once',
+        1: 'upon',
+        2: 'a',
+        3: 'time',
+        length: 4
+    });
+    console.log( l );
+    console.log( kokou.list.first(l) );
+    console.log( kokou.list.last(l) );
+    console.log( kokou.list.indexOf('upon', l) );
 });
 </script>
 
