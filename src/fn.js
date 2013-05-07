@@ -132,6 +132,22 @@ define(function () {
         return partial(sequence, ctx);
     }
 
+    /*
+     * Take a function and create a new function that flips its arguments and
+     * applies them to itself.
+     */
+    function flip(fn) {
+        return function () {
+            var args = aSlice.call(arguments);
+            var flipped = args.reverse();
+            fn.apply(this, flipped);
+        };
+    }
+
+    function flipAs(ctx) {
+        return partial(flip, ctx);
+    }
+
     function lookup(key, obj) {
         return obj[key];
     }
@@ -156,6 +172,8 @@ define(function () {
     module.flowAs     = flowAs;
     module.sequence   = sequence;
     module.sequenceAs = sequenceAs;
+    module.flip       = flip;
+    module.flipAs     = flipAs;
     module.lookup     = lookup;
     module.newApply   = newApply;
     module.isUndef    = partial(op['==='], null, undefined);
