@@ -62,6 +62,37 @@ require(['../src/index'], function (kokou) {
     console.log( kokou.list.first(l) );
     console.log( kokou.list.last(l) );
     console.log( kokou.list.indexOf('upon', l) );
+
+    // fn utils
+    window.fn = kokou.fn;
+    console.log( fn.isUndef(window.foobar) ); // true
+    console.log( fn.isDef(window.foobar) ); // false
+
+    var fns = [
+        function (val) { console.log(val); return val + 1; },
+        function (val) { console.log(val); return val + 1; },
+        function (val) { console.log(val); return val + 1; },
+        function (val) { console.log(val); return val + 1; }
+    ];
+    fn.sequence(fns)(1);
+
+    fns = [
+        function (err, cb) { console.log('f1'); cb() },
+        function (err, cb) { console.log('f2'); cb() },
+        function (err, cb) { console.log('f3'); cb() },
+        function (err, cb) { console.log('f4'); cb() },
+    ];
+    fn.flow(fns, function () { console.log('last'); });
+
+    var o = { startVal: 10 };
+    var sequenceAsO = fn.sequenceAs(o);
+    var fns = [
+        function (val) { console.log(val); return this.startVal + val; },
+        function (val) { console.log(val); return this.startVal + val; },
+        function (val) { console.log(val); return this.startVal + val; },
+        function (val) { console.log(val); return this.startVal + val; }
+    ];
+    sequenceAsO(fns)(1);
 });
 </script>
 

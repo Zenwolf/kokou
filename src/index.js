@@ -5,17 +5,19 @@ define(
         './emitter',
         './list',
         './table',
-        './sorted-table'
+        './sorted-table',
+        './fn'
     ],
 
-    function (type, queue, emitter, list, table, sortedTable) {
+    function (type, queue, emitter, list, table, sortedTable, fn) {
         return {
             type       : type,
             queue      : queue,
             emitter    : emitter,
             list       : list,
             table      : table,
-            sortedTable: sortedTable
+            sortedTable: sortedTable,
+            fn         : fn
         };
     }
 );
