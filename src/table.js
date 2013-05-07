@@ -22,6 +22,8 @@ define(function () {
 
 			tData.keys   = config.keys   || [];
 			tData.values = config.values || {};
+
+			return this;
 		}
 
 		function put(key, value) {
