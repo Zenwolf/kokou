@@ -1,8 +1,9 @@
-/*
- * Note: this queue does not enforce a fixed size. If we want a queue with
- * additional functionality, we can always make a new type of queue that
- * mixes in this basic queue functionality.
- */
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Copyright 2012, 2013 Matthew Jaquish
+// Licensed under The MIT License
+// http://opensource.org/licenses/MIT
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 define(function () {
 
     var queue  = {};

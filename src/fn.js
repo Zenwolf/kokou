@@ -1,7 +1,14 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Copyright 2012, 2013 Matthew Jaquish
+// Licensed under The MIT License
+// http://opensource.org/licenses/MIT
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 /*
  * A utility to support functional programming.
  */
 define(function () {
+    
     var aSlice = Array.prototype.slice;
     var module = {};
 
