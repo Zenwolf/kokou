@@ -32,9 +32,10 @@ require(['../src/index'], function (kokou) {
     window.kokou = kokou;
 
     // type
-    console.log( kokou.type.isObject( {} ) );
-    console.log( kokou.type.isObject( null ) );
-    console.log( kokou.type.isObject( undefined ) );
+    console.log( kokou.type.isObject( {} ) );        // true
+    console.log( kokou.type.isObject( null ) );      // false
+    console.log( kokou.type.isObject( undefined ) ); // false
+    console.log( kokou.type.isArray( [] ) );         // true
 
     // emitter
     window.e = kokou.emitter.create();
@@ -86,13 +87,11 @@ require(['../src/index'], function (kokou) {
 
     var o = { startVal: 10 };
     var sequenceAsO = fn.sequenceAs(o);
-    var fns = [
-        function (val) { console.log(val); return this.startVal + val; },
-        function (val) { console.log(val); return this.startVal + val; },
-        function (val) { console.log(val); return this.startVal + val; },
-        function (val) { console.log(val); return this.startVal + val; }
-    ];
+    function doStuff(val) { console.log(val); return this.startVal + val; }
+    var fns = [ doStuff, doStuff, doStuff, doStuff ];
     sequenceAsO(fns)(1);
+
+    console.log( fn.op['+'](3, 4) ); // 7
 });
 </script>
 
