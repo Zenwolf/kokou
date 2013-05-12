@@ -1,15 +1,15 @@
 define(
-    [
-        './type',
-        './queue',
-        './emitter',
-        './list',
-        './table',
-        './sorted-table',
-        './fn'
+    [ './type'
+    , './queue'
+    , './emitter'
+    , './list'
+    , './table'
+    , './sorted-table'
+    , './fn'
+    , './advice'
     ],
 
-    function (type, queue, emitter, list, table, sortedTable, fn) {
+    function (type, queue, emitter, list, table, sortedTable, fn, advice) {
         return {
             type       : type,
             queue      : queue,
@@ -17,7 +17,8 @@ define(
             list       : list,
             table      : table,
             sortedTable: sortedTable,
-            fn         : fn
+            fn         : fn,
+            advice     : advice
         };
     }
 );
