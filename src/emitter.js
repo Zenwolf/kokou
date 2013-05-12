@@ -21,12 +21,8 @@ define(function () {
          * Init the object with expected properties.
          */
         function initEmitter() {
-            var eData = null;
-
             this.data = this.data || {};
-            eData = this.data['emitter'] = {};
-            eData.listeners = {};
-
+            this.data.listeners = {};
             return this;
         }
 
@@ -35,7 +31,7 @@ define(function () {
          * with @context {Object?} and whether or not it @isOnce {Boolean?}.
          */
         function addListener(eventName, listener, context, isOnce) {
-            var data = this.data['emitter'];
+            var listeners = this.data.listeners;
             var entry = [];
 
             context = context || null;
@@ -44,15 +40,15 @@ define(function () {
                 isOnce = false;
             }
 
-            if (typeof data.listeners[eventName] === 'undefined'){
-                data.listeners[eventName] = [];
+            if (typeof listeners[eventName] === 'undefined'){
+                listeners[eventName] = [];
             }
 
             entry[0] = listener;
             entry[1] = context;
             entry[2] = isOnce; // if it should listen only once.
 
-            data.listeners[eventName].push(entry);
+            listeners[eventName].push(entry);
         }
 
         /**
@@ -60,8 +56,7 @@ define(function () {
          * with @context {Object?} and whether or not it @isOnce {Boolean?}.
          */
         function removeListener(eventName, listener, context, isOnce) {
-            var data = this.data['emitter'];
-            var listeners = data.listeners[eventName];
+            var listeners = this.data.listeners[eventName];
             var entry = null;
             var i = 0;
             var l = 0;
@@ -92,15 +87,18 @@ define(function () {
         }
 
         function removeAllListeners(eventName) {
-            var data = this.data['emitter'];
-            var listeners = data.listeners[eventName];
+            var listeners = this.data.listeners[eventName];
 
             if (!listeners) {
                 return;
             }
 
             // Clear array and prevent garbage collection.
-            data.listeners[eventName].length = 0;
+            listeners[eventName].length = 0;
+        }
+
+        function clearListeners() {
+            this.data.listeners = {};
         }
 
         /**
@@ -108,8 +106,7 @@ define(function () {
          * for @eventName {String}.
          */
         function getListeners(eventName) {
-            var data = this.data['emitter'];
-            var listeners = data.listeners[eventName];
+            var listeners = this.data.listeners[eventName];
             var copy = [];
 
             if (listeners && listeners.length > 0) {
@@ -132,8 +129,7 @@ define(function () {
          * five arguments.
          */
         function emit(eventName, arg1, arg2, arg3, arg4, arg5) {
-            var data = this.data['emitter'];
-            var listeners = data.listeners[eventName];
+            var listeners = this.data.listeners[eventName];
             var listener = null;
             var i = 0;
             var l = 0;
@@ -155,7 +151,7 @@ define(function () {
                  * from the original array.
                  */
                 if (listener[2] === true) {
-                    data.listeners[eventName].splice(i, 1);
+                    this.data.listeners[eventName].splice(i, 1);
                 }
 
                 // If the listener has scope
@@ -175,6 +171,7 @@ define(function () {
             this.addListener        = addListener;
             this.removeListener     = removeListener;
             this.removeAllListeners = removeAllListeners;
+            this.clearListeners     = clearListeners;
             this.getListeners       = getListeners;
             this.once               = once;
             this.emit               = emit;

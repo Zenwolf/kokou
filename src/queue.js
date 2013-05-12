@@ -17,34 +17,28 @@ define(function () {
     var asQueue = (function () {
 
         function initQueue(config) {
-            var qData = null;
-
             config = config || {};
 
             this.data = this.data || {};
-            qData = this.data['queue'] = {};
-
-            qData.queue  = config.queue  || [];
-            qData.offset = config.offset || 0;
+            this.data.queue  = config.queue  || [];
+            this.data.offset = config.offset || 0;
 
             return this;
         }
 
         function peek() {
-            var qData = this.data['queue'];
-            var queue = qData.queue;
-
-            return (queue.length > 0) ? queue[qData.offset] : null ;
+            var data = this.data;
+            var queue = data.queue;
+            return (queue.length > 0) ? queue[data.offset] : null ;
         }
 
         function add(item) {
-            var qData = this.data['queue'];
-            return qData.queue.push(item);
+            return this.data.queue.push(item);
         }
 
         function remove() {
-            var qData = this.data['queue'];
-            var queue = qData.queue;
+            var data = this.data;
+            var queue = data.queue;
             var item = null;
 
             if ( queue.length === 0 ) {
@@ -52,22 +46,22 @@ define(function () {
             }
 
             // Get the item at the front of the queue.
-            item = queue[qData.offset];
+            item = queue[data.offset];
 
             // Increment the offset and remove the excess space if necessary.
-            qData.offset += 1;
+            data.offset += 1;
 
-            if ( (qData.offset * 2) >= queue.length ) {
-                qData.queue = queue.slice(qData.offset);
-                qData.offset = 0;
+            if ( (data.offset * 2) >= queue.length ) {
+                data.queue = queue.slice(data.offset);
+                data.offset = 0;
             }
 
             return item;
         }
 
         function getLength() {
-            var qData = this.data['queue'];
-            return qData.queue.length - qData.offset;
+            var data = this.data;
+            return data.queue.length - data.offset;
         }
 
         function isEmpty() {
@@ -75,14 +69,14 @@ define(function () {
         }
 
         function clear() {
-            var qData = this.data['queue'];
-            qData.queue.length = 0;
-            qData.offset = 0;
+            var data = this.data;
+            data.queue.length = 0;
+            data.offset = 0;
         }
 
         function toArray() {
-            var qData = this.data['queue'];
-            return qData.queue.slice( qData.offset );
+            var data = this.data;
+            return data.queue.slice( data.offset );
         }
 
         return function () {

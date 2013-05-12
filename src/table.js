@@ -20,22 +20,20 @@ define(function () {
     var asTable = (function () {
 
         function initTable(config) {
-            var tData = null;
             config = config || {};
 
             this.data = this.data || {};
-            tData = this.data['table'] = {};
 
-            tData.keys   = config.keys   || [];
-            tData.values = config.values || {};
+            this.data.keys   = config.keys   || [];
+            this.data.values = config.values || {};
 
             return this;
         }
 
         function put(key, value) {
-            var tData = this.data['table'];
-            var keys = tData.keys;
-            var vals = tData.values;
+            var data = this.data;
+            var keys = data.keys;
+            var vals = data.values;
 
             if ( !vals.hasOwnProperty(key) ) {
                 keys.push(key);
@@ -45,9 +43,9 @@ define(function () {
         }
 
         function remove(key) {
-            var tData = this.data['table'];
-            var vals = tData.values;
-            var keys = tData.keys;
+            var data = this.data;
+            var vals = data.values;
+            var keys = data.keys;
             var removedVal;
             var i = 0;
             var l = 0;
@@ -69,17 +67,22 @@ define(function () {
         }
 
         function get(key) {
-            var tData = this.data['table'];
-            var vals = tData.values;
+            var data = this.data;
+            var vals = data.values;
 
             if ( !vals.hasOwnProperty(key) ) { return; }
             return vals[key];
         }
 
+        function clear() {
+            this.data.keys.length = 0;
+            this.data.values = {};
+        }
+
         function forEach(fn, context) {
-            var tData = this.data['table'];
-            var keys = tData.keys;
-            var vals = tData.values;
+            var data = this.data;
+            var keys = data.keys;
+            var vals = data.values;
             var key = null;
             var i = 0;
             var l = keys.length;
@@ -97,6 +100,7 @@ define(function () {
             this.put       = put;
             this.remove    = remove;
             this.get       = get;
+            this.clear     = clear;
             this.forEach   = forEach;
         };
     } ());

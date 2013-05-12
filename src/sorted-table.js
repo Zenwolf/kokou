@@ -17,9 +17,9 @@ define(['./table', './list'], function (table, list) {
 
     // Custom put method.
     sortedTable.put = function (key, value) {
-        var tData = this.data['table'];
-        var keys = tData.keys;
-        var vals = tData.values;
+        var data = this.data;
+        var keys = data.keys;
+        var vals = data.values;
         var index = -1;
 
         if ( !vals.hasOwnProperty(key) ) {
@@ -32,9 +32,9 @@ define(['./table', './list'], function (table, list) {
 
     // Custom remove method.
     sortedTable.remove = function (key) {
-        var tData = this.data['table'];
-        var keys = tData.keys;
-        var vals = tData.values;
+        var data = this.data;
+        var keys = data.keys;
+        var vals = data.values;
         var index = -1;
         var removedVal;
 
