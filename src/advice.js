@@ -9,8 +9,8 @@
  */
 define(function () {
 
-	var advice = {};
-	var module = {};
+    var advice = {};
+    var module = {};
 
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,48 +19,48 @@ define(function () {
 
     var asAdvice = (function () {
 
-		function before(base, before) {
-			return function composedBefore() {
-				var args = Array.prototype.slice.call(arguments, 0);
+        function before(base, before) {
+            return function composedBefore() {
+                var args = Array.prototype.slice.call(arguments, 0);
 
-				before.apply(this, args);
+                before.apply(this, args);
 
-				return base.apply(this, args);
-			};
-		}
+                return base.apply(this, args);
+            };
+        }
 
-		function around(base, around) {
-			return function composedAround() {
-				var i = 0;
-				var l = arguments.length;
-				var args = new Array(l + 1);
+        function around(base, around) {
+            return function composedAround() {
+                var i = 0;
+                var l = arguments.length;
+                var args = new Array(l + 1);
 
-				args[0] = base.bind(this);
+                args[0] = base.bind(this);
 
-				for (; i < l; i += 1) {
-					args[i + 1] = arguments[i];
-				}
+                for (; i < l; i += 1) {
+                    args[i + 1] = arguments[i];
+                }
 
-				return around.apply(this, args);
-			};
-		}
+                return around.apply(this, args);
+            };
+        }
 
-		function after(base, after) {
-			return function composedAfter() {
-				var args = Array.prototype.slice.call(arguments, 0);
-				var result = base.apply(this, args);
+        function after(base, after) {
+            return function composedAfter() {
+                var args = Array.prototype.slice.call(arguments, 0);
+                var result = base.apply(this, args);
 
-				after.apply(this, args)
+                after.apply(this, args)
 
-				return result;
-			};
-		}
+                return result;
+            };
+        }
 
-		return function () {
-			this.before = before;
-			this.around = around;
-			this.after  = after;
-		};
+        return function () {
+            this.before = before;
+            this.around = around;
+            this.after  = after;
+        };
     } ());
 
 
@@ -77,19 +77,19 @@ define(function () {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     module.withAdvice = function () {
-		['before', 'around', 'after'].forEach(function (fnName) {
+        ['before', 'around', 'after'].forEach(function (fnName) {
 
-			this[fnName] = function (method, fn) {
-				if ( typeof this[method] === 'function' ) {
-					return this[method] =
-						advice[fnName](this[method], fn);
-				}
-				else {
-					return this[method] = fn;
-				}
-			};
+            this[fnName] = function (method, fn) {
+                if ( typeof this[method] === 'function' ) {
+                    return this[method] =
+                        advice[fnName](this[method], fn);
+                }
+                else {
+                    return this[method] = fn;
+                }
+            };
 
-		}, this);    	
+        }, this);
     };
 
     return module;
