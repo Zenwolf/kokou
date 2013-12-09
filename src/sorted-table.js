@@ -1,75 +1,48 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ *
+ */
+core.Class('kokou.SortedTable', {
 
-define(['./table', './list'], function (table, list) {
+    include: [kokou.Table],
 
-    var sortedTable  = {};
-    var module = {};
+    construct: function () {},
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Prototypical object.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    members: {
+        /**
+         *
+         */
+        put: function (key, value) {
+            var data = this._data;
+            var keys = this.keys;
+            var index = -1;
 
-    table.asTable.call(sortedTable);
+            if ( !data.hasOwnProperty(key) ) {
+                index = kokou.List.indexOf(key, keys);
+                keys.splice(index, 0, key);
+            }
 
-    // Custom put method.
-    sortedTable.put = function (key, value) {
-        var data = this.data;
-        var keys = data.keys;
-        var vals = data.values;
-        var index = -1;
+            data[key] = value;
+        },
 
-        if ( !vals.hasOwnProperty(key) ) {
-            index = list.indexOf(key, keys);
-            keys.splice(index, 0, key);
+        /**
+         *
+         */
+        remove: function (key) {
+            var data = this._data;
+            var keys = this.keys;
+            var index = -1;
+            var removedVal;
+
+            if ( !data.hasOwnProperty(key) ) {
+                return;
+            }
+
+            removedVal = data[key];
+            delete data[key];
+            index = kokou.List.indexOf(key, keys);
+            keys.splice(index, 1);
+
+            return removedVal;
         }
-
-        vals[key] = value;
-    };
-
-    // Custom remove method.
-    sortedTable.remove = function (key) {
-        var data = this.data;
-        var keys = data.keys;
-        var vals = data.values;
-        var index = -1;
-        var removedVal;
-
-        if ( !vals.hasOwnProperty(key) ) { return; }
-        removedVal = vals[key];
-        delete vals[key];
-        index = list.indexOf(key, keys);
-        keys.splice(index, 1);
-
-        return removedVal;
-    };
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Factory function, with optional config
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    function create(config) {
-        var obj = Object.create(sortedTable);
-
-        config = ( typeof config === 'object' ) ? config : null ;
-
-        if ( config !== null ) {
-            obj.initTable(config);
-        }
-
-        return obj;
     }
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Public module.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    module.create  = create;  // factory
-
-    return module;
 });
