@@ -1,51 +1,44 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-/*
+/**
  * List/array utils.
  */
-define(function () {
-
-    var aSlice = Array.prototype.slice;
-
+core.Module('kokou.List', {
     /*
      * {Array} Convert a @pseudoArray {Object} (one that has length and
      * Integer index properties) to a real array. Begin at
      * the @start {Integer} index, otherwise process the entire list.
      */
-    function toArray(pseudoArray, start) {
+    toArray: function (pseudoArray, start) {
+        var aSlice = Array.prototype.slice;
+
         // if no start provided or start is just zero, etc.
         if (!start || start < 1) {
             return aSlice.call(pseudoArray);
         }
         return aSlice.call(pseudoArray, start);
-    }
+    },
 
     /*
      * {Primitive|Object|Function|Array} Find the first item in
      * a @list {Array}.
      */
-    function first(list) {
+    first: function (list) {
         return list[0];
-    }
+    },
 
     /*
      * {Primitive|Object|Function|Array} Find the last item in
      * a @list {Array}.
      */
-    function last(list) {
+    last: function (list) {
         return list[list.length - 1];
-    }
+    },
 
     /**
      * {Integer} Returns the calculated index of a @key {String} in a list
      * of sorted string @keys {Array} using a binary search.
      *
      */
-    function indexOf(key, keys) {
+    indexOf: function (key, keys) {
         var n = keys.length;
         var i = 0;
         var d = n;
@@ -61,13 +54,13 @@ define(function () {
         }
 
         return i;
-    }
+    },
 
     /**
      * {Array} Insert @item {Null|Array|Function|RegExp|Object|Date|Number|String|Boolean|Map|Integer|Primitive}
      * into @a {Array} at @index {Integer}.
      */
-    function insertAt(a, index, item) {
+    insertAt: function (a, index, item) {
         var i = index;
         var l = a.length;
         var k = l;
@@ -90,13 +83,13 @@ define(function () {
 
         a[i] = item;
         return a;
-    }
+    },
 
     /**
      * {Any} Remove the item at @index {Integer} from the @a {Array}.
      * Returns the remove value.
      */
-    function removeAt(a, index) {
+    removeAt: function (a, index) {
         var i = index;
         var l = a.length - 1;
         var removedVal = a[index];
@@ -105,32 +98,34 @@ define(function () {
         }
         a.length = l;
         return removedVal;
-    }
+    },
 
     /**
      * {Array} Return a new copy of the @a {Array} with randomly sorted items.
      */
-    function shuffle(a) {
+    shuffle: function (a) {
         return a.slice(0).sort(function () {
             return Math.random() > 0.5 ? 1 : -1;
         });
-    }
+    },
 
     /**
      * {Array} Clone the @a {Array}.
      */
-    function clone(a) {
+    clone: function (a) {
         return a.slice(0);
-    }
+    },
 
-    return {
-        toArray : toArray,
-        first   : first,
-        last    : last,
-        indexOf : indexOf,
-        insertAt: insertAt,
-        removeAt: removeAt,
-        shuffle : shuffle,
-        clone   : clone
-    };
+    /**
+     * The fastest way to clear an @a {Array} without incurring garbage
+     * collection: http://jsperf.com/array-clearing-performance
+     */
+    clear: function (a) {
+        var i = 0;
+        var l = a.length;
+
+        for (; i < l; i += 1) {
+            a.shift();
+        }
+    }
 });
