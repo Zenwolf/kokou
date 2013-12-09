@@ -1,0 +1,16 @@
+#
+# Sublime Text
+#
+*.sublime-workspace
+
+#
+# Jasy
+#
+.jasy
+external
+
+#
+# Node.js
+#
+node_modules
+
