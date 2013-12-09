@@ -1,37 +1,21 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 /*
  * An event emitter.
  */
-define(function () {
+core.Class('kokou.Emitter', {
 
-    var emitter = {};
-    var module = {};
+    construct: function () {
+        this.__listeners = {};
+    },
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Emitter mixin.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    var asEmitter = (function () {
-        /*
-         * Init the object with expected properties.
-         */
-        function initEmitter() {
-            this.data = this.data || {};
-            this.data.listeners = {};
-            return this;
-        }
-
+    members: {
         /**
          * Add a @listener {Function} for @eventName {String}
          * with @context {Object?} and whether or not it @isOnce {Boolean?}.
          */
-        function addListener(eventName, listener, context, isOnce) {
-            var listeners = this.data.listeners;
+        addListener: function (eventName, listener, context, isOnce) {
+            var emitter = this;
+            var listeners = this.__listeners;
+            var callback = listener;
             var entry = [];
 
             context = context || null;
@@ -40,23 +24,29 @@ define(function () {
                 isOnce = false;
             }
 
-            if (typeof listeners[eventName] === 'undefined'){
+            if (typeof listeners[eventName] === 'undefined') {
                 listeners[eventName] = [];
             }
 
-            entry[0] = listener;
-            entry[1] = context;
-            entry[2] = isOnce; // if it should listen only once.
+            if (isOnce) {
+                callback = function () {
+                    emitter.removeListener(eventName, callback, context);
+                    listener.apply(this, Array.prototype.slice.call(arguments));
+                };
+            }
+
+            entry[0] = callback; // The listener callback function.
+            entry[1] = context;  // The context to execute the callback with.
 
             listeners[eventName].push(entry);
-        }
+        },
 
         /**
-         * Remove a @listener {Function} for @eventName {String}
-         * with @context {Object?} and whether or not it @isOnce {Boolean?}.
+         * Remove a @listener {Function} for @eventName {String} with a
+         * @context {Object?}.
          */
-        function removeListener(eventName, listener, context, isOnce) {
-            var listeners = this.data.listeners[eventName];
+        removeListener: function (eventName, listener, context) {
+            var listeners = this.__listeners[eventName];
             var entry = null;
             var i = 0;
             var l = 0;
@@ -67,46 +57,42 @@ define(function () {
                 return;
             }
 
-            if (typeof isOnce !== 'boolean') {
-                isOnce = false;
-            }
-
             l = listeners.length;
 
             for (; i < l; i += 1) {
                 entry = listeners[i];
 
-                if (entry[0] === listener
-                    && entry[1] === context
-                    && entry[2] === isOnce) {
-
+                if (entry[0] === listener && entry[1] === context) {
                     listeners.splice(i, 1);
                     break;
                 }
             }
-        }
+        },
 
-        function removeAllListeners(eventName) {
-            var listeners = this.data.listeners[eventName];
+        removeAllListeners: function (eventName) {
+            var listeners = this.__listeners[eventName];
 
             if (!listeners) {
                 return;
             }
 
             // Clear array and prevent garbage collection.
-            listeners[eventName].length = 0;
-        }
+            kokou.List.clear(listeners[eventName]);
+        },
 
-        function clearListeners() {
-            this.data.listeners = {};
+        /**
+         * Clear every listener.
+         */
+        clearListeners: function () {
+            this.__listeners = {};
         }
 
         /**
          * {Array} Return a new array of the listeners
          * for @eventName {String}.
          */
-        function getListeners(eventName) {
-            var listeners = this.data.listeners[eventName];
+        getListeners: function (eventName) {
+            var listeners = this.__listeners[eventName];
             var copy = [];
 
             if (listeners && listeners.length > 0) {
@@ -114,22 +100,22 @@ define(function () {
             }
 
             return copy;
-        }
+        },
 
         /**
          * Convenience function to add a one-time @listener {Function} for
          * @eventName {String} with @context {Object?}.
          */
-        function once(eventName, listener, context) {
+        once: function (eventName, listener, context) {
             this.addListener(eventName, listener, context, true);
-        }
+        },
 
         /**
          * Emit an event with @eventName {String}, with support of up to
          * five arguments.
          */
-        function emit(eventName, arg1, arg2, arg3, arg4, arg5) {
-            var listeners = this.data.listeners[eventName];
+        emit: function (eventName, arg1, arg2, arg3, arg4, arg5) {
+            var listeners = this.__listeners[eventName];
             var listener = null;
             var i = 0;
             var l = 0;
@@ -138,21 +124,13 @@ define(function () {
                 return;
             }
 
-            // make a copy to protect against timing issues.
+            // Make a copy to protect against timing issues.
             listeners = listeners.slice(0);
 
             l = listeners.length;
 
             for (; i < l; i += 1){
                 listener = listeners[i];
-
-                /*
-                 * If it should only be called once, then remove it
-                 * from the original array.
-                 */
-                if (listener[2] === true) {
-                    this.data.listeners[eventName].splice(i, 1);
-                }
 
                 // If the listener has scope
                 if (listener[1]) {
@@ -165,43 +143,5 @@ define(function () {
                 }
             }
         }
-
-        return function () {
-            this.initEmitter        = initEmitter;
-            this.addListener        = addListener;
-            this.removeListener     = removeListener;
-            this.removeAllListeners = removeAllListeners;
-            this.clearListeners     = clearListeners;
-            this.getListeners       = getListeners;
-            this.once               = once;
-            this.emit               = emit;
-        };
-    } ());
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Prototypical object
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    asEmitter.call(emitter);
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Factory.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    function create() {
-        var obj = Object.create(emitter);
-        return obj.initEmitter();
     }
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Public module.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    module.create    = create;
-    module.asEmitter = asEmitter;
-
-    return module;
 });
