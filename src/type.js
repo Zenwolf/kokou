@@ -1,66 +1,55 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(function () {
+
+var toStr = Object.prototype.toString;
+
+function name(val) {
+    return toStr.call(val).slice(8, -1);
+}
 
 /**
  * Library for checking object types.
  */
-define(function () {
+core.Module('kokou.Type', {
 
-    var toStr = Object.prototype.toString;
+    isFunction: function (val) {
+        return name(val) === 'Function';
+    },
 
-    function isFunction(val) {
-        return toStr.call(val).slice(8, -1) === 'Function';
+    isArray: function (val) {
+        return name(val) === 'Array';
+    },
+
+    isObject: function (val) {
+        return name(val) === 'Object';
+    },
+
+    isString: function (val) {
+        return name(val) === 'String';
+    },
+
+    isNumber: function (val) {
+        return name(val) === 'Number';
+    },
+
+    isBoolean: function (val) {
+        return name(val) === 'Boolean';
+    },
+
+    isDate: function (val) {
+        return name(val) === 'Date';
+    },
+
+    isRegExp: function (val) {
+        return name(val) === 'RegExp';
+    },
+
+    isNull: function (val) {
+        return name(val) === 'Null';
+    },
+
+    isUndefined: function (val) {
+        return name(val) === 'Undefined';
     }
-
-    function isArray(val) {
-        return toStr.call(val).slice(8, -1) === 'Array';
-    }
-
-    function isObject(val) {
-        return toStr.call(val).slice(8, -1) === 'Object';
-    }
-
-    function isString(val) {
-        return toStr.call(val).slice(8, -1) === 'String';
-    }
-
-    function isNumber(val) {
-        return toStr.call(val).slice(8, -1) === 'Number';
-    }
-
-    function isBoolean(val) {
-        return toStr.call(val).slice(8, -1) === 'Boolean';
-    }
-
-    function isDate(val) {
-        return toStr.call(val).slice(8, -1) === 'Date';
-    }
-
-    function isRegExp(val) {
-        return toStr.call(val).slice(8, -1) === 'RegExp';
-    }
-
-    function isNull(val) {
-        return toStr.call(val).slice(8, -1) === 'Null';
-    }
-
-    function isUndefined(val) {
-        return toStr.call(val).slice(8, -1) === 'Undefined';
-    }
-
-    return {
-        isFunction : isFunction,
-        isArray    : isArray,
-        isObject   : isObject,
-        isString   : isString,
-        isNumber   : isNumber,
-        isBoolean  : isBoolean,
-        isDate     : isDate,
-        isRegExp   : isRegExp,
-        isNull     : isNull,
-        isUndefined: isUndefined
-    };
 });
+
+} ());
