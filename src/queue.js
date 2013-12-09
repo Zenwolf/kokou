@@ -1,44 +1,42 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * A basic queue implementation.
+ *
+ * NOTE: this queue does NOT enforce a fixed size. To create a queue with
+ * additional functionality, mix this queue into another class that implements
+ * the new logic.
+ */
+core.Class('kokou.Queue', {
 
-define(function () {
+    construct: function () {
+        this.__queue = [];
+        this.__offset = 0;
+    },
 
-    var queue  = {};
-    var module = {};
+    members: {
 
+        /**
+         * Return the item at the front of the queue, but don't remove it.
+         * If there is nothing, then return null.
+         */
+        peek: function () {
+            var queue = this.__queue;
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Queue mixin.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            return (queue.length > 0) ? queue[this.__offset] : null;
+        },
 
-    var asQueue = (function () {
+        /**
+         * Queue an item.
+         */
+        add: function (item) {
+            return this.__queue.push(item);
+        },
 
-        function initQueue(config) {
-            config = config || {};
-
-            this.data = this.data || {};
-            this.data.queue  = config.queue  || [];
-            this.data.offset = config.offset || 0;
-
-            return this;
-        }
-
-        function peek() {
-            var data = this.data;
-            var queue = data.queue;
-            return (queue.length > 0) ? queue[data.offset] : null ;
-        }
-
-        function add(item) {
-            return this.data.queue.push(item);
-        }
-
-        function remove() {
-            var data = this.data;
-            var queue = data.queue;
+        /**
+         * Remove an item from the queue. Returns the removed item; otherwise
+         * it returns null.
+         */
+        remove: function () {
+            var queue = this.__queue;
             var item = null;
 
             if ( queue.length === 0 ) {
@@ -46,82 +44,37 @@ define(function () {
             }
 
             // Get the item at the front of the queue.
-            item = queue[data.offset];
+            item = queue[this.__offset];
 
             // Increment the offset and remove the excess space if necessary.
-            data.offset += 1;
+            this.__offset += 1;
 
-            if ( (data.offset * 2) >= queue.length ) {
-                data.queue = queue.slice(data.offset);
-                data.offset = 0;
+            if ( (this.__offset * 2) >= queue.length ) {
+                this.__queue = queue.slice(this.__offset);
+                this.__offset = 0;
             }
 
             return item;
-        }
+        },
 
-        function getLength() {
-            var data = this.data;
-            return data.queue.length - data.offset;
-        }
+        /**
+         * {Integer} Return the length of the queue.
+         */
+        getLength: function () {
+            return this.__queue.length - this.__offset;
+        },
 
-        function isEmpty() {
+        isEmpty: function () {
             return this.getLength() === 0;
+        },
+
+        clear: function () {
+            kokou.List.clear(this.__queue);
+            this.__offset = 0;
+        },
+
+        toArray: function () {
+            return this.__queue.slice( this.__offset );
         }
-
-        function clear() {
-            var data = this.data;
-            data.queue.length = 0;
-            data.offset = 0;
-        }
-
-        function toArray() {
-            var data = this.data;
-            return data.queue.slice( data.offset );
-        }
-
-        return function () {
-            this.initQueue = initQueue;
-            this.peek      = peek;
-            this.add       = add;
-            this.remove    = remove;
-            this.getLength = getLength;
-            this.isEmpty   = isEmpty;
-            this.clear     = clear;
-            this.toArray   = toArray;
-        };
-    } ());
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Prototypical object.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    asQueue.call(queue);
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Factory.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    function create(config) {
-        var obj = Object.create(queue);
-
-        config = ( typeof config === 'object' ) ? config : null ;
-
-        if ( config !== null ) {
-            obj.initQueue(config);
-        }
-
-        return obj;
     }
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Public module.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    module.create  = create;
-    module.asQueue = asQueue;
-
-    return module;
 });
