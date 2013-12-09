@@ -1,18 +1,10 @@
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Copyright 2012, 2013 Matthew Jaquish
-// Licensed under The MIT License
-// http://opensource.org/licenses/MIT
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 /*
  * A utility to support functional programming.
  */
-define(function () {
-    
-    var aSlice = Array.prototype.slice;
-    var module = {};
+core.Module('kokou.Fn', {
 
-    var op = {
+    /** {=Map} Functions that represent operators. */
+    op: {
         '+'  : function (a, b) { return a + b; },
         '-'  : function (a, b) { return a - b; },
         '*'  : function (a, b) { return a * b; },
@@ -22,44 +14,48 @@ define(function () {
         '<'  : function (a, b) { return a < b; },
         '>'  : function (a, b) { return a > b; },
         '!'  : function (a) { return !a; }
-    };
+    },
 
-    function partial(fn, ctx) {
-        var args = aSlice.call(arguments, 2); // remove fx, ctx
-        var newFn = null;
+    /**
+     * {Function} Partially apply the @fn {Function} with the
+     * @context {Object?} and additional arguments. Returns a new partially
+     * applied function.
+     */
+    partial: function (fn, ctx) {
+        var asArray = kokou.List.asArray;
+        var args = asArray(arguments, 2); // remove fn, ctx
+
         ctx = ctx || null;
 
-        newFn = function () {
-            var localArgs = aSlice.call(arguments, 0);
-            return fn.apply(ctx, args.concat(localArgs) );
+        return function () {
+            return fn.apply(ctx, args.concat( asArray(arguments) ));
         };
-
-        return newFn;
-    }
+    },
 
     /*
-     * Return a new function that executes function 2 and passes its
-     * return value to function 1. The returned function will do this:
-     *   fn1( fn2(arguments) )
+     * {Function} Return a new function that executes @fn2 {Function} and passes
+     * its return value to @fn1 {Function}. The returned function will return the
+     * result of fn1( fn2(arguments) ) upon execution.
      */
-    function compose(fn1, fn2) {
+    compose: function (fn1, fn2) {
         var ctx = this;
         return function () {
-            return fn1( fn2.apply(ctx, arguments) );
+            return fn1( fn2.apply(ctx, kokou.List.asArray(arguments)) );
         };
-    }
+    },
 
-    function composeAs(ctx) {
-        return partial(compose, ctx);
-    }
+    composeAs: function (ctx) {
+        return kokou.Fn.partial(compose, ctx);
+    },
 
     /*
-     * Flow a series of functions via callbacks.
+     * Flow a series of @fns {Array[Functions]} via callbacks. At the end of
+     * the flow, call the @last {Function}.
      *
      * WARNING: beware of overflowing the stack with a large array of
      * functions (due to no tail recursion in JS).
      */
-    function flow(fns, last) {
+    flow: function (fns, last) {
         var f = last;
         var i = 0;
         var l = 0;
@@ -97,23 +93,25 @@ define(function () {
 
         // Start the flow with no error.
         f(null);
-    }
+    },
 
-    function flowAs(ctx) {
-        return partial(flow, ctx);
-    }
+    flowAs: function (ctx) {
+        return kokou.Fn.partial(flow, ctx);
+    },
 
     /*
-     * Sequence an array of functions using partial application and
-     * composition. The next function is always passed the return
+     * {Function} Sequence a @fns {Array[Function]} using partial application
+     * and function composition. The next function is always passed the return
      * value of the previous function. Returns the first function
      * in the sequence.
      */
-    function sequence(fns) {
+    sequence: function (fns) {
         var i = fns.length;
         var currentFn = null;
         var prevFn = null;
         var isLast = true;
+        var partial = kokou.Fn.partial;
+        var compose = kokou.Fn.compose;
         var ctx = this;
 
         function makeFn(fn1, fn2) {
@@ -133,58 +131,41 @@ define(function () {
         }
 
         return currentFn;
-    }
+    },
 
-    function sequenceAs(ctx) {
-        return partial(sequence, ctx);
-    }
+    sequenceAs: function (ctx) {
+        return kokou.Fn.partial(sequence, ctx);
+    },
 
     /*
-     * Take a function and create a new function that flips its arguments and
-     * applies them to itself.
+     * Take a @fn {Function} and create a new function that flips its arguments
+     * and applies them to itself.
      */
-    function flip(fn) {
+    flip: function (fn) {
         return function () {
-            var args = aSlice.call(arguments);
+            var args = kokou.List.asArray(arguments);
             var flipped = args.reverse();
             fn.apply(this, flipped);
         };
-    }
+    },
 
-    function flipAs(ctx) {
-        return partial(flip, ctx);
-    }
+    flipAs: function (ctx) {
+        return kokou.Fn.partial(flip, ctx);
+    },
 
-    function lookup(key, obj) {
+    lookup: function (key, obj) {
         return obj[key];
-    }
+    },
 
     /*
      * Allow us to call a constructor using Function.apply.
      * @args {Array}
      */
-    function newApply(constrFn, args) {
+    newApply: function (constrFn, args) {
         function F() {
             return constrFn.apply(this, args);
         }
         F.prototype = constrFn.prototype;
         return new F();
     }
-
-    module.op         = op;
-    module.partial    = partial;
-    module.compose    = compose;
-    module.composeAs  = composeAs;
-    module.flow       = flow;
-    module.flowAs     = flowAs;
-    module.sequence   = sequence;
-    module.sequenceAs = sequenceAs;
-    module.flip       = flip;
-    module.flipAs     = flipAs;
-    module.lookup     = lookup;
-    module.newApply   = newApply;
-    module.isUndef    = partial(op['==='], null, undefined);
-    module.isDef      = compose(op['!'], module.isUndef);
-
-    return module;
 });
