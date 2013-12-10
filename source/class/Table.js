@@ -89,9 +89,13 @@ core.Class('kokou.Table', {
 
             for (; i < l; i += 1) {
                 key = keys[i];
-                (context) ?
-                    fn.call(context, key, data[key]) :
+
+                if (context) {
+                    fn.call(context, key, data[key]);
+                }
+                else {
                     fn(key, data[key]);
+                }
             }
         }
     }

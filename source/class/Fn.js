@@ -58,24 +58,23 @@ core.Module('kokou.Fn', {
     flow: function (fns, last) {
         var f = last;
         var i = 0;
-        var l = 0;
         var ctx = this;
 
         var makeFlowFn = function (fn, nextFn, ctx) {
-            var f = null;
+            var func = null;
 
             if (ctx) {
-                f = function (error) {
+                func = function (error) {
                     fn.call(ctx, error, nextFn);
                 };
             }
             else {
-                f = function (error) {
+                func = function (error) {
                     fn(error, nextFn);
                 };
             }
 
-            return f;
+            return func;
         };
 
         if (ctx) {

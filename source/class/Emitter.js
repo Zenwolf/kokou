@@ -85,7 +85,7 @@ core.Class('kokou.Emitter', {
          */
         clearListeners: function () {
             this.__listeners = {};
-        }
+        },
 
         /**
          * {Array} Return a new array of the listeners
