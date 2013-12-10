@@ -10,7 +10,7 @@ var advice = {
      */
     before: function (base, before) {
         return function composedBefore() {
-            var args = Array.prototype.slice.call(arguments, 0);
+            var args = kokou.List.asArray(arguments);
 
             before.apply(this, args);
             return base.apply(this, args);
@@ -41,7 +41,7 @@ var advice = {
      */
     after: function (base, after) {
         return function composedAfter() {
-            var args = Array.prototype.slice.call(arguments, 0);
+            var args = kokou.List.asArray(arguments, 0);
             var result = base.apply(this, args);
 
             after.apply(this, args);

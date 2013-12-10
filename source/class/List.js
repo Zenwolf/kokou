@@ -57,7 +57,7 @@ core.Module('kokou.List', {
     },
 
     /**
-     * {Array} Insert @item {Null|Array|Function|RegExp|Object|Date|Number|String|Boolean|Map|Integer|Primitive}
+     * {Array} Insert @item {Any}
      * into @a {Array} at @index {Integer}.
      */
     insertAt: function (a, index, item) {

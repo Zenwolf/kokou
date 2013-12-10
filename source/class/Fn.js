@@ -34,8 +34,8 @@ core.Module('kokou.Fn', {
 
     /*
      * {Function} Return a new function that executes @fn2 {Function} and passes
-     * its return value to @fn1 {Function}. The returned function will return the
-     * result of fn1( fn2(arguments) ) upon execution.
+     * its return value to @fn1 {Function}. The returned function will return
+     * the result of fn1( fn2(arguments) ) upon execution.
      */
     compose: function (fn1, fn2) {
         var ctx = this;
@@ -45,7 +45,7 @@ core.Module('kokou.Fn', {
     },
 
     composeAs: function (ctx) {
-        return kokou.Fn.partial(compose, ctx);
+        return kokou.Fn.partial(kokou.Fn.compose, ctx);
     },
 
     /*
@@ -96,7 +96,7 @@ core.Module('kokou.Fn', {
     },
 
     flowAs: function (ctx) {
-        return kokou.Fn.partial(flow, ctx);
+        return kokou.Fn.partial(kokou.Fn.flow, ctx);
     },
 
     /*
@@ -134,7 +134,7 @@ core.Module('kokou.Fn', {
     },
 
     sequenceAs: function (ctx) {
-        return kokou.Fn.partial(sequence, ctx);
+        return kokou.Fn.partial(kokou.Fn.sequence, ctx);
     },
 
     /*
@@ -150,7 +150,7 @@ core.Module('kokou.Fn', {
     },
 
     flipAs: function (ctx) {
-        return kokou.Fn.partial(flip, ctx);
+        return kokou.Fn.partial(kokou.Fn.flip, ctx);
     },
 
     lookup: function (key, obj) {
