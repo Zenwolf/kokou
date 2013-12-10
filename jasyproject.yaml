@@ -1,0 +1,4 @@
+name: kokou
+requires:
+- source: https://github.com/sebastian-software/core.git
+  version: refs/heads/master
