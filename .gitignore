@@ -10,6 +10,7 @@
 external
 source/script
 build
+api
 
 #
 # Node.js
