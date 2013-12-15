@@ -8,6 +8,8 @@
 #
 .jasy
 external
+source/script
+build
 
 #
 # Node.js
