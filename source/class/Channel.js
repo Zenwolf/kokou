@@ -65,10 +65,6 @@ Channel.prototype = {
      */
     clientIds: function () {
         return this._listeners.keys();
-    },
-
-    _processListener: function() {
-
     }
 };
 
