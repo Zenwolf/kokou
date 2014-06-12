@@ -24,7 +24,8 @@ Subscription.prototype = {
         this._target.unbind(this._clientId);
         this._isActive = false;
     }
-
 };
+
+kokou.Subscription = Subscription;
 
 } (this));
