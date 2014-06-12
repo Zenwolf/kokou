@@ -1,108 +1,131 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+(function (global) {
+
+var kokou = global.kokou = (global.kokou || {});
+var listUtil = kokou.List;
 
 /**
  * A default table implementation. Provides faster iteration
  * over properties than a normal object with for-in, since this can iterate
  * over a list of keys.
  */
-core.Class('kokou.Table', {
+function Table() {
+    this._keys = [];
+    this._data = {};
+}
 
-    construct: function () {
-        this.keys = [];
+Table.prototype = {
+    /**
+     * Put the @key {String} and @value {Any} pair into the table.
+     */
+    put: function (key, value) {
+        var data = this._data;
+
+        if ( !data.hasOwnProperty(key) ) {
+            this._keys.push(key);
+        }
+
+        data[key] = value;
+    },
+
+    /**
+     * Remove the @key {String} and its associated value from the table.
+     */
+    remove: function (key) {
+        var data = this._data;
+        var keys = this._keys;
+        var removedVal;
+        var i = 0;
+        var l = 0;
+
+        if ( !data.hasOwnProperty(key) ) {
+            return;
+        }
+
+        removedVal = data[key] || null;
+        l = keys.length;
+
+        for (; i < l; i += 1) {
+            if (keys[i] !== key) {
+                continue;
+            }
+
+            delete data[key];
+            keys[i] = keys[l - 1];
+            l = l - 1;
+            keys.length = l;
+        }
+
+        return removedVal;
+    },
+
+    /**
+     *
+     */
+    get: function (key) {
+        var data = this._data;
+
+        if ( !data.hasOwnProperty(key) ) {
+            return;
+        }
+
+        return data[key];
+    },
+
+    /**
+     *
+     */
+    clear: function () {
+        kokou.List.clear(this._keys);
         this._data = {};
     },
 
-    members: {
+    keys: function() {
+        return this._keys.slice();
+    },
 
-        /**
-         * Put the @key {String} and @value {Any} pair into the table.
-         */
-        put: function (key, value) {
-            var data = this._data;
+    vals: function() {
+        var keys = this._keys;
+        var data = this._data;
+        var i = 0;
+        var l = keys.length;
+        var results = [];
 
-            if ( !data.hasOwnProperty(key) ) {
-                this.keys.push(key);
+        for (; i < l; i++) {
+            results.push(data[keys[i]]);
+        }
+
+        return results;
+    },
+
+    /**
+     *
+     */
+    forEach: function (fn, context) {
+        var data = this._data;
+        var keys = this._keys;
+        var key = null;
+        var i = 0;
+        var l = keys.length;
+
+        for (; i < l; i += 1) {
+            key = keys[i];
+
+            if (context) {
+                fn.call(context, data[key], key);
             }
-
-            data[key] = value;
-        },
-
-        /**
-         * Remove the @key {String} and its associated value from the table.
-         */
-        remove: function (key) {
-            var data = this._data;
-            var keys = this.keys;
-            var removedVal;
-            var i = 0;
-            var l = 0;
-
-            if ( !data.hasOwnProperty(key) ) {
-                return;
-            }
-
-            removedVal = data[key];
-            l = keys.length;
-
-            for (; i < l; i += 1) {
-                if (keys[i] !== key) {
-                    continue;
-                }
-
-                delete data[key];
-                keys[i] = keys[l - 1];
-                l = l - 1;
-                keys.length = l;
-            }
-
-            return removedVal;
-        },
-
-        /**
-         *
-         */
-        get: function (key) {
-            var data = this._data;
-
-            if ( !data.hasOwnProperty(key) ) {
-                return;
-            }
-
-            return data[key];
-        },
-
-        /**
-         *
-         */
-        clear: function () {
-            kokou.List.clear(this.keys);
-            this._data = {};
-        },
-
-        /**
-         *
-         */
-        forEach: function (fn, context) {
-            var data = this._data;
-            var keys = this.keys;
-            var key = null;
-            var i = 0;
-            var l = keys.length;
-
-            for (; i < l; i += 1) {
-                key = keys[i];
-
-                if (context) {
-                    fn.call(context, key, data[key]);
-                }
-                else {
-                    fn(key, data[key]);
-                }
+            else {
+                fn(data[key], key);
             }
         }
     }
-});
+};
+
+kokou.Table = Table;
+
+} (this));

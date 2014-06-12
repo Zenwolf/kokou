@@ -127,11 +127,8 @@ core.Module('kokou.List', {
      * collection: http://jsperf.com/array-clearing-performance
      */
     clear: function (a) {
-        var i = 0;
-        var l = a.length;
-
-        for (; i < l; i += 1) {
-            a.shift();
+        while (a.length > 0) {
+            a.pop();
         }
     }
 });
