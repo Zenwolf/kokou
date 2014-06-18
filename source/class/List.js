@@ -1,5 +1,5 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -7,7 +7,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 /**
  * List/array utils.
  */
-core.Module('kokou.List', {
+module.exports = {
     /*
      * {Array} Convert a @pseudoArray {Object} (one that has length and
      * Integer index properties) to a real array. Begin at
@@ -131,4 +131,4 @@ core.Module('kokou.List', {
             a.pop();
         }
     }
-});
+};

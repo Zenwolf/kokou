@@ -4,16 +4,15 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function (global) {
-
-var kokou = global.kokou = (global.kokou || {});
-var listUtil = kokou.List;
+var listUtil = require('./List.js');
+var SortedTable = require('./SortedTable.js');
+var Subscription = require('./Subscription.js');
 
 /**
  * A Channel used to keep track of a specific set of client IDs and listeners.
  */
 function Channel() {
-    this._listeners = new kokou.SortedTable();
+    this._listeners = new SortedTable();
 }
 
 Channel.prototype = {
@@ -25,7 +24,7 @@ Channel.prototype = {
     bind: function (clientId, listener, context) {
         this._listeners.put(clientId, [listener, context]);
 
-        return new kokou.Subscription(this, clientId);
+        return new Subscription(this, clientId);
     },
 
     /**
@@ -68,6 +67,4 @@ Channel.prototype = {
     }
 };
 
-kokou.Channel = Channel;
-
-} (this));
+module.exports = Channel;

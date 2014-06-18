@@ -1,9 +1,12 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright 2012 - 2014 Matthew Jaquish
+Licensed under the Apache License, Version 2.0
+http://www.apache.org/licenses/LICENSE-2.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 /**
  * A lifecycle object that can be used in asynchronous dependency management.
  */
-(function (global) {
-
-var kokou = global.kokou = (global.kokou || {});
 
 function Lifecycle() {
     /** {=Map} */
@@ -75,6 +78,4 @@ Lifecycle.prototype = {
     }
 };
 
-kokou.Lifecycle = Lifecycle;
-
-} (this));
+module.exports = Lifecycle;

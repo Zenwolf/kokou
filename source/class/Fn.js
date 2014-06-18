@@ -1,13 +1,15 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+var List = require('./List.js');
+
 /*
  * A utility to support functional programming.
  */
-core.Module('kokou.Fn', {
+module.exports = {
 
     /** {=Map} Functions that represent operators. */
     op: {
@@ -28,7 +30,7 @@ core.Module('kokou.Fn', {
      * applied function.
      */
     partial: function (fn, ctx) {
-        var asArray = kokou.List.asArray;
+        var asArray = List.asArray;
         var args = asArray(arguments, 2); // remove fn, ctx
 
         ctx = ctx || null;
@@ -46,12 +48,12 @@ core.Module('kokou.Fn', {
     compose: function (fn1, fn2) {
         var ctx = this;
         return function () {
-            return fn1( fn2.apply(ctx, kokou.List.asArray(arguments)) );
+            return fn1( fn2.apply(ctx, List.asArray(arguments)) );
         };
     },
 
     composeAs: function (ctx) {
-        return kokou.Fn.partial(kokou.Fn.compose, ctx);
+        return this.partial(this.compose, ctx);
     },
 
     /*
@@ -101,7 +103,7 @@ core.Module('kokou.Fn', {
     },
 
     flowAs: function (ctx) {
-        return kokou.Fn.partial(kokou.Fn.flow, ctx);
+        return this.partial(this.flow, ctx);
     },
 
     /*
@@ -115,8 +117,8 @@ core.Module('kokou.Fn', {
         var currentFn = null;
         var prevFn = null;
         var isLast = true;
-        var partial = kokou.Fn.partial;
-        var compose = kokou.Fn.compose;
+        var partial = this.partial;
+        var compose = this.compose;
         var ctx = this;
 
         function makeFn(fn1, fn2) {
@@ -139,7 +141,7 @@ core.Module('kokou.Fn', {
     },
 
     sequenceAs: function (ctx) {
-        return kokou.Fn.partial(kokou.Fn.sequence, ctx);
+        return this.partial(this.sequence, ctx);
     },
 
     /*
@@ -148,14 +150,14 @@ core.Module('kokou.Fn', {
      */
     flip: function (fn) {
         return function () {
-            var args = kokou.List.asArray(arguments);
+            var args = List.asArray(arguments);
             var flipped = args.reverse();
             fn.apply(this, flipped);
         };
     },
 
     flipAs: function (ctx) {
-        return kokou.Fn.partial(kokou.Fn.flip, ctx);
+        return this.partial(this.flip, ctx);
     },
 
     lookup: function (key, obj) {
@@ -173,4 +175,4 @@ core.Module('kokou.Fn', {
         F.prototype = constrFn.prototype;
         return new F();
     }
-});
+};

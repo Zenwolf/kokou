@@ -4,16 +4,14 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function (global) {
-
-var kokou = global.kokou = (global.kokou || {});
-var listUtil = kokou.List;
+var listUtil = require('./List.js');
+var Table = require('./Table.js');
 
 function SortedTable() {
-    kokou.Table.call(this);
+    Table.call(this);
 }
 
-SortedTable.prototype = Object.create(kokou.Table.prototype);
+SortedTable.prototype = Object.create(Table.prototype);
 
 SortedTable.prototype.put = function (key, value) {
     var data = this._data;
@@ -46,6 +44,4 @@ SortedTable.prototype.remove = function (key) {
     return removedVal;
 };
 
-kokou.SortedTable = SortedTable;
-
-} (this));
+module.exports = SortedTable;

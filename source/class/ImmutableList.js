@@ -4,7 +4,6 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function (global) {
 'use strict';
 
 var slice = Array.prototype.slice;
@@ -39,13 +38,13 @@ function remove(item) {
 }
 
 function first() {
-    var _a = this._a;
-    return (_a.length > 0) ? _a[0] : null;
+    var a = this._a;
+    return (a.length > 0) ? a[0] : undefined;
 }
 
 function last() {
-    var _a = this._a;
-    return (_a.length > 0) ? _a[_a.length - 1] : null;
+    var a = this._a;
+    return (a.length > 0) ? a[a.length - 1] : undefined;
 }
 
 
@@ -54,10 +53,13 @@ function last() {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function concat() {
-    var _a = this._a;
+    var a = this._a;
     var args = slice.call(arguments);
+    var arrays = args.map(function(arr) {
+        return (arr instanceof ImmutableList) ? arr.toArray() : arr;
+    });
 
-    return new ImmutableList(_a.concat.apply(_a, args));
+    return new ImmutableList(a.concat.apply(a, arrays));
 }
 
 function every(fn, context) {
@@ -90,7 +92,8 @@ function map(fn, context) {
 }
 
 function pop() {
-    return this.remove(this.last());
+    var last = this.last();
+    return [last, this.remove(last)];
 }
 
 var push = add;
@@ -125,7 +128,16 @@ function sort(fn) {
 }
 
 function splice(index, howMany, insertItems) {
-    var a = this._a.slice().splice(index, howMany, insertItems);
+    var a = this._a.slice();
+
+    // Passing insertItems will force an "undefined" array entry.
+    if (insertItems === undefined) {
+        a.splice(index, howMany);
+    }
+    else {
+        a.splice(index, howMany, insertItems);
+    }
+
     return new ImmutableList(a);
 }
 
@@ -196,12 +208,12 @@ var utilAPI = {
     toJSON: toJSON
 };
 
+var listKeys = Object.keys(listAPI);
+var arrayKeys = Object.keys(arrayAPI);
+var utilKeys = Object.keys(utilAPI);
 
 
 function ImmutableList(a) {
-    var listKeys = Object.keys(listAPI);
-    var arrayKeys = Object.keys(arrayAPI);
-    var utilKeys = Object.keys(utilAPI);
 
     Object.defineProperty(this, '_a', {
         value: a.slice()
@@ -221,35 +233,33 @@ function ImmutableList(a) {
     this._a.forEach(function (val, i) {
         this[i] = val;
     }, this);
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // List API
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    listKeys.forEach(function (key) {
-        this[key] = listAPI[key];
-    }, this);
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Array API
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    arrayKeys.forEach(function (key) {
-        this[key] = arrayAPI[key];
-    }, this);
-
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Util API
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    utilKeys.forEach(function (key) {
-        this[key] = utilAPI[key];
-    }, this);
 }
 
-global.ImmutableList = ImmutableList;
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// List API
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-} (this));
+listKeys.forEach(function (key) {
+    ImmutableList.prototype[key] = listAPI[key];
+}, this);
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Array API
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+arrayKeys.forEach(function (key) {
+    ImmutableList.prototype[key] = arrayAPI[key];
+}, this);
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Util API
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+utilKeys.forEach(function (key) {
+    ImmutableList.prototype[key] = utilAPI[key];
+}, this);
+
+
+module.exports = ImmutableList;

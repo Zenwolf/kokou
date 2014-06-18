@@ -4,10 +4,6 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function (global) {
-
-var kokou = global.kokou = (global.kokou || {});
-
 function Subscription(target, clientId) {
     this._target = target;
     this._clientId = clientId;
@@ -26,6 +22,4 @@ Subscription.prototype = {
     }
 };
 
-kokou.Subscription = Subscription;
-
-} (this));
+module.exports = Subscription;

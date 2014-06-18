@@ -1,14 +1,12 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function () {
+var Type = require('./Type.js');
 
-var type = kokou.Type;
-
-core.Module('kokou.Obj', {
+module.exports = {
 
     /**
      * Deep clone a value.
@@ -26,16 +24,16 @@ core.Module('kokou.Obj', {
         var copy;
         var name;
 
-        if (type.isNull(val) ||
-            type.isUndefined(val) ||
-            type.isString(val) ||
-            type.isNumber(val) ||
-            type.isBoolean(val)
+        if (Type.isNull(val) ||
+            Type.isUndefined(val) ||
+            Type.isString(val) ||
+            Type.isNumber(val) ||
+            Type.isBoolean(val)
         ) {
             return val;
         }
 
-        if ( type.isArray(val) ) {
+        if ( Type.isArray(val) ) {
             copy = [];
 
             for (i = 0, l = val.length; i < l; i++) {
@@ -45,7 +43,7 @@ core.Module('kokou.Obj', {
             return copy;
         }
 
-        if ( type.isObject(val) ) {
+        if ( Type.isObject(val) ) {
             copy = Object.create(null);
 
             for (name in val) {
@@ -57,20 +55,18 @@ core.Module('kokou.Obj', {
             return copy;
         }
 
-        if ( type.isDate(val) ) {
+        if ( Type.isDate(val) ) {
             copy = new Date();
             copy.setTime( val.getTime() );
 
             return copy;
         }
 
-        if ( type.isRegExp(val) ) {
+        if ( Type.isRegExp(val) ) {
             return new RegExp(val);
         }
 
         throw new Error("Unable to copy: " + val);
     }
 
-});
-
-} ());
+};

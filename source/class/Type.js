@@ -1,10 +1,8 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 -2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-(function () {
 
 var toStr = Object.prototype.toString;
 
@@ -15,7 +13,7 @@ function name(val) {
 /**
  * Library for checking object types.
  */
-core.Module('kokou.Type', {
+module.exports = {
 
     isFunction: function (val) {
         return name(val) === 'Function';
@@ -56,6 +54,7 @@ core.Module('kokou.Type', {
     isUndefined: function (val) {
         return name(val) === 'Undefined';
     }
-});
+};
+
 
 } ());

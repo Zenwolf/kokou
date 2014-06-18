@@ -1,10 +1,10 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2012, 2013 Matthew Jaquish
+Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function () {
+var List = require('./List.js');
 
 var advice = {
 
@@ -13,7 +13,7 @@ var advice = {
      */
     before: function (base, before) {
         return function composedBefore() {
-            var args = kokou.List.asArray(arguments);
+            var args = List.asArray(arguments);
 
             before.apply(this, args);
             return base.apply(this, args);
@@ -44,7 +44,7 @@ var advice = {
      */
     after: function (base, after) {
         return function composedAfter() {
-            var args = kokou.List.asArray(arguments, 0);
+            var args = List.asArray(arguments, 0);
             var result = base.apply(this, args);
 
             after.apply(this, args);
@@ -56,7 +56,7 @@ var advice = {
 /**
  * A module for mixing-in Aspect-Oriented advice for cross-cutting concerns.
  */
-core.Module('kokou.Advice', {
+module.exports = {
 
     /**
      * This is only intended to be used as a mixin for other objects. Only use
@@ -78,6 +78,4 @@ core.Module('kokou.Advice', {
         }, this);
     }
 
-});
-
-} ());
+};

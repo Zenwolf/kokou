@@ -4,10 +4,7 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-(function (global) {
-
-var kokou = global.kokou = (global.kokou || {});
-var listUtil = kokou.List;
+var List = require('./List.js');
 
 /**
  * A default table implementation. Provides faster iteration
@@ -64,9 +61,6 @@ Table.prototype = {
         return removedVal;
     },
 
-    /**
-     *
-     */
     get: function (key) {
         var data = this._data;
 
@@ -77,11 +71,8 @@ Table.prototype = {
         return data[key];
     },
 
-    /**
-     *
-     */
     clear: function () {
-        kokou.List.clear(this._keys);
+        List.clear(this._keys);
         this._data = {};
     },
 
@@ -103,9 +94,6 @@ Table.prototype = {
         return results;
     },
 
-    /**
-     *
-     */
     forEach: function (fn, context) {
         var data = this._data;
         var keys = this._keys;
@@ -126,6 +114,5 @@ Table.prototype = {
     }
 };
 
-kokou.Table = Table;
+module.exports = Table;
 
-} (this));
