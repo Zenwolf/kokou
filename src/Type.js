@@ -55,6 +55,3 @@ module.exports = {
         return name(val) === 'Undefined';
     }
 };
-
-
-} ());
