@@ -1,11 +1,11 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.Kokou=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var List = require('./List.js');
+var List = _dereq_('./List.js');
 
 var advice = {
 
@@ -81,16 +81,16 @@ module.exports = {
 
 };
 
-},{"./List.js":8}],2:[function(require,module,exports){
+},{"./List.js":8}],2:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var listUtil = require('./List.js');
-var SortedTable = require('./SortedTable.js');
-var Subscription = require('./Subscription.js');
+var listUtil = _dereq_('./List.js');
+var SortedTable = _dereq_('./SortedTable.js');
+var Subscription = _dereq_('./Subscription.js');
 
 /**
  * A Channel used to keep track of a specific set of client IDs and listeners.
@@ -153,7 +153,7 @@ Channel.prototype = {
 
 module.exports = Channel;
 
-},{"./List.js":8,"./SortedTable.js":11,"./Subscription.js":12}],3:[function(require,module,exports){
+},{"./List.js":8,"./SortedTable.js":11,"./Subscription.js":12}],3:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -307,14 +307,14 @@ Emitter.prototype = {
 
 module.exports = Emitter;
 
-},{}],4:[function(require,module,exports){
+},{}],4:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var List = require('./List.js');
+var List = _dereq_('./List.js');
 
 /*
  * A utility to support functional programming.
@@ -487,7 +487,7 @@ module.exports = {
     }
 };
 
-},{"./List.js":8}],5:[function(require,module,exports){
+},{"./List.js":8}],5:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -754,26 +754,26 @@ utilKeys.forEach(function (key) {
 
 module.exports = ImmutableList;
 
-},{}],6:[function(require,module,exports){
+},{}],6:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var Advice        = require('./Advice.js');
-var Channel       = require('./Channel.js');
-var Emitter       = require('./Emitter.js');
-var Fn            = require('./Fn.js');
-var ImmutableList = require('./ImmutableList.js');
-var Lifecycle     = require('./Lifecycle.js');
-var List          = require('./List.js');
-var Obj           = require('./Obj.js');
-var Queue         = require('./Queue.js');
-var SortedTable   = require('./SortedTable.js');
-var Subscription  = require('./Subscription.js');
-var Table         = require('./Table.js');
-var Type          = require('./Type.js');
+var Advice        = _dereq_('./Advice.js');
+var Channel       = _dereq_('./Channel.js');
+var Emitter       = _dereq_('./Emitter.js');
+var Fn            = _dereq_('./Fn.js');
+var ImmutableList = _dereq_('./ImmutableList.js');
+var Lifecycle     = _dereq_('./Lifecycle.js');
+var List          = _dereq_('./List.js');
+var Obj           = _dereq_('./Obj.js');
+var Queue         = _dereq_('./Queue.js');
+var SortedTable   = _dereq_('./SortedTable.js');
+var Subscription  = _dereq_('./Subscription.js');
+var Table         = _dereq_('./Table.js');
+var Type          = _dereq_('./Type.js');
 
 module.exports = {
     Advice:  Advice,
@@ -791,7 +791,7 @@ module.exports = {
     Type: Type
 };
 
-},{"./Advice.js":1,"./Channel.js":2,"./Emitter.js":3,"./Fn.js":4,"./ImmutableList.js":5,"./Lifecycle.js":7,"./List.js":8,"./Obj.js":9,"./Queue.js":10,"./SortedTable.js":11,"./Subscription.js":12,"./Table.js":13,"./Type.js":14}],7:[function(require,module,exports){
+},{"./Advice.js":1,"./Channel.js":2,"./Emitter.js":3,"./Fn.js":4,"./ImmutableList.js":5,"./Lifecycle.js":7,"./List.js":8,"./Obj.js":9,"./Queue.js":10,"./SortedTable.js":11,"./Subscription.js":12,"./Table.js":13,"./Type.js":14}],7:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -874,7 +874,7 @@ Lifecycle.prototype = {
 
 module.exports = Lifecycle;
 
-},{}],8:[function(require,module,exports){
+},{}],8:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -1010,14 +1010,14 @@ module.exports = {
     }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],9:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var Type = require('./Type.js');
+var Type = _dereq_('./Type.js');
 
 module.exports = {
 
@@ -1084,14 +1084,14 @@ module.exports = {
 
 };
 
-},{"./Type.js":14}],10:[function(require,module,exports){
+},{"./Type.js":14}],10:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var List = require('./List.js');
+var List = _dereq_('./List.js');
 
 /**
  * A basic queue implementation.
@@ -1172,15 +1172,15 @@ Queue.prototype = {
 
 module.exports = Queue;
 
-},{"./List.js":8}],11:[function(require,module,exports){
+},{"./List.js":8}],11:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var listUtil = require('./List.js');
-var Table = require('./Table.js');
+var listUtil = _dereq_('./List.js');
+var Table = _dereq_('./Table.js');
 
 function SortedTable() {
     Table.call(this);
@@ -1221,7 +1221,7 @@ SortedTable.prototype.remove = function (key) {
 
 module.exports = SortedTable;
 
-},{"./List.js":8,"./Table.js":13}],12:[function(require,module,exports){
+},{"./List.js":8,"./Table.js":13}],12:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -1248,14 +1248,14 @@ Subscription.prototype = {
 
 module.exports = Subscription;
 
-},{}],13:[function(require,module,exports){
+},{}],13:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 - 2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var List = require('./List.js');
+var List = _dereq_('./List.js');
 
 /**
  * A default table implementation. Provides faster iteration
@@ -1368,7 +1368,7 @@ Table.prototype = {
 module.exports = Table;
 
 
-},{"./List.js":8}],14:[function(require,module,exports){
+},{"./List.js":8}],14:[function(_dereq_,module,exports){
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2012 -2014 Matthew Jaquish
 Licensed under the Apache License, Version 2.0
@@ -1428,3 +1428,5 @@ module.exports = {
 };
 
 },{}]},{},[6])
+(6)
+});
