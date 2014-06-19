@@ -600,9 +600,9 @@ function reverse() {
     return new ImmutableList(this._a.slice().reverse());
 }
 
-// Cannot mutate original array, so just return the first item.
 function shift() {
-    return this.first();
+    var first = this.first();
+    return [first, this.remove(first)];
 }
 
 function slice(begin, end) {
@@ -641,7 +641,7 @@ function toString() {
 
 function unshift() {
     var args = slice.call(arguments);
-    return this.concat(args);
+    return new ImmutableList(args.concat(this.toArray()));
 }
 
 
