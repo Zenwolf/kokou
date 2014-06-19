@@ -4,6 +4,8 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+var VERSION = '0.0.1';
+
 var Advice        = require('./Advice.js');
 var Channel       = require('./Channel.js');
 var Emitter       = require('./Emitter.js');
@@ -31,5 +33,7 @@ module.exports = {
     SortedTable: SortedTable,
     Subscription: Subscription,
     Table: Table,
-    Type: Type
+    Type: Type,
+
+    VERSION: VERSION
 };

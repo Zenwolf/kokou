@@ -761,6 +761,8 @@ Licensed under the Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+var VERSION = '0.0.1';
+
 var Advice        = _dereq_('./Advice.js');
 var Channel       = _dereq_('./Channel.js');
 var Emitter       = _dereq_('./Emitter.js');
@@ -788,7 +790,9 @@ module.exports = {
     SortedTable: SortedTable,
     Subscription: Subscription,
     Table: Table,
-    Type: Type
+    Type: Type,
+
+    VERSION: VERSION
 };
 
 },{"./Advice.js":1,"./Channel.js":2,"./Emitter.js":3,"./Fn.js":4,"./ImmutableList.js":5,"./Lifecycle.js":7,"./List.js":8,"./Obj.js":9,"./Queue.js":10,"./SortedTable.js":11,"./Subscription.js":12,"./Table.js":13,"./Type.js":14}],7:[function(_dereq_,module,exports){
